@@ -40,6 +40,13 @@ public class DriverController {
         return ResponseEntity.ok(drivers);
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<DriverDTO> update(@PathVariable Long id,
+                                            @RequestBody DriverDTOin driverDTOin) {
+        DriverDTO updatedDriver = driverService.update(id, driverDTOin);
+        return ResponseEntity.ok(updatedDriver);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id)  {
         driverService.delete(id);

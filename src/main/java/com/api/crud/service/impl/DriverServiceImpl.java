@@ -5,9 +5,7 @@ import com.api.crud.model.Team;
 import com.api.crud.repository.DriverRepository;
 import com.api.crud.repository.TeamRepository;
 import com.api.crud.service.DriverService;
-import com.api.crud.service.dto.response.TeamDTO;
 import com.api.crud.service.mapper.DriverMapper;
-import com.api.crud.service.mapper.TeamMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.api.crud.service.dto.response.DriverDTO;
@@ -54,6 +52,18 @@ public class DriverServiceImpl implements DriverService {
                 .map(DriverMapper.MAPPER::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public DriverDTO update(Long id, DriverDTOin dto) {
+        Driver existingDriver = getDriver(id);
+        existingDriver.setFirstName(dto.getFirstName());
+        existingDriver.setLastName(dto.getLastName());
+        Team team = getTeam(dto);
+        existingDriver.setTeam(team);
+        Driver updatedDriver = driverRepository.save(existingDriver);
+        return DriverMapper.MAPPER.toDto(updatedDriver);
+    }
+
 
     @Override
     public void delete(Long id)  {
